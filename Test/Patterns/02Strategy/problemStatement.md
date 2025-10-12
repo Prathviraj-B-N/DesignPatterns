@@ -1,0 +1,24 @@
+
+Task: Shipping Cost Calculator 📦
+
+You are building a logistics system for an e-commerce company that needs to calculate shipping costs for customer orders. The cost calculation varies significantly based on the chosen carrier.
+
+The available shipping methods (strategies) are:
+
+Standard Ground: Calculates a flat rate plus a fee per kilogram: (Flat Rate+Cost per kg×Weight).
+
+Express Air: Calculates a higher base rate plus a different, higher fee per kilogram: (Base Rate+Premium Cost per kg×Weight).
+
+Local Pickup: The cost is always zero (or a small fixed handling fee, your choice).
+
+Challenge: Implement a class structure using the Strategy Pattern to handle these different calculation methods. The core system that processes the order should be unaware of how the shipping is calculated, only that it can be calculated.
+
+Requirements:
+
+Strategy Interface: Define an interface (e.g., IShippingStrategy) with a single method, perhaps calculateCost(orderDetails).
+
+Concrete Strategies: Create three concrete classes, one for each shipping method (StandardGround, ExpressAir, LocalPickup), implementing the interface.
+
+Context Class: Create a class (e.g., Order) that can hold a reference to an IShippingStrategy and exposes a method like getShippingCost(). The context should allow the client to set the strategy at runtime.
+
+Client Code: Demonstrate how a client can create an order, set the weight and other necessary details, and then easily switch between the three different shipping strategies to get the cost.

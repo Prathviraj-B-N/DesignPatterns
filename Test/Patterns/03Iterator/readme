@@ -1,0 +1,66 @@
+
+
+## 📅 Task: Calendar Appointment List Traversal
+
+You are working on a personal organizer application. The core data structure stores calendar appointments, which are organized in two separate internal lists to optimize quick lookups:
+
+1.  **High-Priority Appointments:** Stored in a sorted array (for quick access to the next urgent item).
+2.  **Standard Appointments:** Stored in an unordered linked list.
+
+The client code (the GUI or a notification service) doesn't care about these two separate lists; it simply wants to iterate over *all* appointments in a specific, unified order.
+
+**The Internal Data Structure:** A custom `AppointmentCalendar` class that holds these two distinct collections internally.
+
+**The required traversal methods (Iterators) are:**
+
+1.  **Unified Priority Traversal:** Iterates over **all High-Priority** items first, followed by **all Standard** items.
+2.  **Date-Specific Traversal:** Iterates over **only** the High-Priority items that fall within a specific date range.
+
+**Challenge:** Implement the **Iterator Pattern** to provide these two distinct ways of iterating over the combined data structure without exposing the underlying array and linked list to the client.
+
+**Requirements:**
+
+1.  **Element Class:** An `Appointment` class (e.g., with `Title`, `Date`, and `IsHighPriority` properties).
+2.  **Aggregate:** The `AppointmentCalendar` class, which internally manages:
+    * `HighPriorityList` (e.g., a `List<Appointment>`).
+    * `StandardList` (e.g., another `List<Appointment>`).
+3.  **Iterator Interface:** Define an interface (`IAppointmentIterator`) with core methods: `HasNext()` and `Next()`.
+4.  **Concrete Iterators:**
+    * `PriorityIterator`: Implements the logic to iterate through one list entirely, then switch to the next list. This hides the fact that two separate collections exist.
+    * `DateRangeIterator`: Implements logic to filter the High-Priority list based on a date range passed to its constructor.
+5.  **Client Code:** Demonstrate how the client can:
+    * Use the `PriorityIterator` to print all appointments in order.
+    * Use the `DateRangeIterator` (initialized with a specific date range) to print only the filtered urgent appointments.
+
+This challenge focuses on unifying and filtering data from a **complex, multiple-collection aggregate**
+```
+// Client Code - BAD APPROACH
+AppointmentCalendar calendar = new AppointmentCalendar();
+
+// 1. Client must know the internal names of both lists
+List<Appointment> highPriority = calendar.GetHighPriorityList();
+List<Appointment> standard = calendar.GetStandardList();
+
+// 2. Client must manually manage the iteration sequence
+foreach (var appt in highPriority)
+{
+    Console.WriteLine(appt.Title);
+}
+foreach (var appt in standard)
+{
+    Console.WriteLine(appt.Title);
+}
+```
+```
+// Client Code - GOOD APPROACH
+AppointmentCalendar calendar = new AppointmentCalendar();
+IAppointmentIterator iterator = calendar.CreateIterator("Priority");
+
+// Client uses one simple, common loop interface
+
+while (iterator.HasNext())
+{
+    Appointment appt = iterator.Next();
+    Console.WriteLine(appt.Title);
+}
+```
