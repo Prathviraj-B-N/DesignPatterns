@@ -15,13 +15,13 @@ AppointmentCalendar appointmentCalendar = new AppointmentCalendar(
 
 IAppointMentIterator iterator;
 
-iterator = new PriorityIterator(appointmentCalendar);
+iterator = appointmentCalendar.CreatePriorityIterator();
 while (iterator.HasNext())
 {
     Console.WriteLine(iterator.Next());
 }
 
-iterator = new DateRangeIterator(appointmentCalendar, new DateTime(2023, 10, 5), new DateTime(2023, 10, 10));
+iterator = appointmentCalendar.CreateDateRangeIterator(new DateTime(2023, 10, 5), new DateTime(2023, 10, 10));
 while (iterator.HasNext())
 {
     Console.WriteLine(iterator.Next());

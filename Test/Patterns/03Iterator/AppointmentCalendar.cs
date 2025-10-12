@@ -17,12 +17,22 @@ public record Appointment
 }
 class AppointmentCalendar
 {
-    public List<Appointment> HighPriorityAppointments { get; private set; }
-    public LinkedList<Appointment> StandardAppointments { get; private set; }
-    
+    public List<Appointment> HighPriorityAppointments { get;  private set; }
+    public LinkedList<Appointment> StandardAppointments{ get;  private set; }
+
     public AppointmentCalendar(List<Appointment> highPriorityAppointments, LinkedList<Appointment> standardAppointments)
     {
         HighPriorityAppointments = highPriorityAppointments;
         StandardAppointments = standardAppointments;
+    }
+
+    public IAppointMentIterator CreatePriorityIterator()
+    {
+        return new PriorityIterator(this);
+    }
+    
+    public IAppointMentIterator CreateDateRangeIterator(DateTime startDate, DateTime endDate)
+    {
+        return new DateRangeIterator(this, startDate, endDate);
     }
 }
